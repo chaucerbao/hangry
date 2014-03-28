@@ -8,7 +8,7 @@ block body
     each choice in choices
       li
         a(href='/choice/' + choice._id)= choice.name
-        a(href='/choice/' + choice._id + '/delete') Delete
+        a(href='/choice/' + choice._id + '/remove') Remove
 
   a(href='/choice/0') Add one!
   a(href='/') Go back

@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express'),
   http = require('http'),
   path = require('path'),
@@ -41,7 +43,7 @@ app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
@@ -50,6 +52,7 @@ app.get('/', battles.today);
 app.get('/choices', choices.list);
 app.get('/choice/:id', choices.form);
 app.post('/choice/:id', choices.save);
+app.get('/choice/:id/remove', choices.remove);
 
 app.get('/vote/:id', choices.vote);
 

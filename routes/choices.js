@@ -40,11 +40,24 @@ exports.save = function(req, res) {
     name: req.body.choice.name
   };
 
+  if (!choice.name.length) {
+    res.redirect('/choices');
+    return;
+  }
+
   req.db.choices.update({
     _id: req.params.id
   }, choice, {
     upsert: true
   }, function(err, numReplaced, choice) {
+    res.redirect('/choices');
+  });
+};
+
+exports.remove = function(req, res) {
+  req.db.choices.remove({
+    _id: req.params.id
+  }, {}, function(err, numReplaced) {
     res.redirect('/choices');
   });
 };
