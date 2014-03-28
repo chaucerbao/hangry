@@ -1,0 +1,9 @@
+extends ../layout
+
+block body
+  form(action='/choice/' + choice._id, method='post')
+    label(for='choice[name]') Name
+    input(id='choice[name]', name='choice[name]', value=choice.name, type='text')
+
+    input(value='Save', type='submit')
+    a(href='/choices') Cancel

@@ -1,0 +1,12 @@
+extends ../layout
+
+block body
+  h1 I'm hangry!
+  p Let's figure out what you're going to be having for lunch today. Pick what you want.
+
+  ul#battle
+    each choice in battle.choices
+      li(class=(vote.choice === choice._id ? 'selected' : null))
+        a(href='/vote/' + choice._id)= choice.name
+
+  a(href='/choices') See all the choices

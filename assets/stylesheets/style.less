@@ -1,0 +1,62 @@
+@import url(http://fonts.googleapis.com/css?family=Lemon);
+
+/* Variables */
+@color-1: #00B7FF; /* Links */
+@color-2: #fff; /* Button foreground */
+@color-3: #999; /* Button background */
+@color-4: #0b0; /* Selected button background */
+
+/* Global */
+body {
+  font: 62.5% 'Lemon', cursive;
+}
+a {
+  color: @color-1;
+  text-decoration: none;
+}
+
+/* Battle */
+#battle {
+  font-family: Verdana, sans-serif;
+  margin: 2em 0;
+  padding: 0;
+  li {
+    list-style: none;
+  }
+  a {
+    background-color: @color-3;
+    border-radius: .4em;
+    border: solid darken(@color-3, 40%) .1em;
+    box-shadow: .2em .2em .4em rgba(0, 0, 0, .4);
+    color: @color-2;
+    display: block;
+    margin: .5em 0;
+    outline: none;
+    padding: .5em;
+    text-shadow: .2em .2em .4em rgba(0, 0, 0, .4);
+    width: 12em;
+  }
+  .selected a {
+    background-color: @color-4;
+    border-color: darken(@color-4, 10%);
+  }
+}
+
+/* Choices */
+#choices {
+  font-family: Verdana, sans-serif;
+  margin: 2em 0;
+  li {
+    margin: .5em 0;
+    width: 12em;
+    &:hover {
+      a:last-child {
+        display: block;
+      }
+    }
+  }
+  a:last-child {
+    display: none;
+    float: right;
+  }
+}

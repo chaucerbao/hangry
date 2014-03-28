@@ -1,0 +1,14 @@
+extends ../layout
+
+block body
+  h1 All the choices
+  p These are all the restaurants you can pick from. Don't be afraid to add your favorite into the rotation.
+
+  ol#choices
+    each choice in choices
+      li
+        a(href='/choice/' + choice._id)= choice.name
+        a(href='/choice/' + choice._id + '/delete') Delete
+
+  a(href='/choice/0') Add one!
+  a(href='/') Go back
