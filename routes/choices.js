@@ -74,10 +74,17 @@ exports.vote = function(req, res) {
     /* Save */
     req.db.battles.update({
       _id: battle._id
-    }, battle, function(err, numReplaced, battle) {
-      res.json({
-        success: true
-      });
+    }, battle, function(err) {
+      var votes = [];
+
+      for (var i = 0; i < battle.choices.length; i++) {
+        votes.push({
+          choice: battle.choices[i]._id,
+          count: battle.choices[i].votes.length
+        });
+      }
+
+      res.json(votes);
     });
   });
 };

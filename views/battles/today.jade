@@ -8,5 +8,6 @@ block body
     each choice in battle.choices
       li(class=(vote === choice._id ? 'selected' : null))
         a(href='/vote/' + choice._id)= choice.name
+          span.votes= choice.votes.length
 
   a(href='/choices') See all the choices
