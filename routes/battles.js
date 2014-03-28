@@ -44,6 +44,7 @@ exports.today = function(req, res) {
           for (var i = 0; i < battle.choices.length; i++) {
             if (battle.choices[i].votes.indexOf(req.ip) >= 0) {
               callback(null, battle.choices[i]._id);
+              return;
             }
           }
           callback(null, null);
