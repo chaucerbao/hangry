@@ -6,7 +6,7 @@ block body
 
   ul#battle
     each choice in battle.choices
-      li(class=(vote.choice === choice._id ? 'selected' : null))
+      li(class=(vote === choice._id ? 'selected' : null))
         a(href='/vote/' + choice._id)= choice.name
 
   a(href='/choices') See all the choices

@@ -1,5 +1,8 @@
-var async = require('async');
-var shuffle = require('knuth-shuffle').knuthShuffle;
+'use strict';
+
+var async = require('async'),
+  shuffle = require('knuth-shuffle').knuthShuffle,
+  choicesPerBattle = 3;
 
 exports.today = function(req, res) {
   var date = new Date(),
@@ -8,26 +11,28 @@ exports.today = function(req, res) {
   req.db.battles.findOne({
     date: today
   }, function(err, battle) {
-    async.parallel([
+    async.series([
 
         /* Create a battle if necessary */
         function(callback) {
           if (!battle) {
             /* Create today's battle */
             req.db.choices.find({}).exec(function(err, choices) {
-              deck = shuffle(choices);
+              var deck = shuffle(choices);
 
               battle = {
                 date: today,
                 choices: []
               };
 
-              for (i = 0; i < 3; i++) {
+              for (var i = 0; i < Math.min(deck.length, choicesPerBattle); i++) {
+                deck[i].votes = [];
                 battle.choices.push(deck[i]);
               }
 
-              req.db.battles.insert(battle);
-              callback(null, battle);
+              req.db.battles.insert(battle, function(err, battle) {
+                callback(null, battle);
+              });
             });
           } else {
             callback(null, battle);
@@ -36,12 +41,12 @@ exports.today = function(req, res) {
 
         /* Get the user's previous selection (if available) */
         function(callback) {
-          req.db.votes.findOne({
-            ip: req.ip,
-            battle: battle._id
-          }, function(err, vote) {
-            callback(null, vote);
-          });
+          for (var i = 0; i < battle.choices.length; i++) {
+            if (battle.choices[i].votes.indexOf(req.ip) >= 0) {
+              callback(null, battle.choices[i]._id);
+            }
+          }
+          callback(null, null);
         }
       ],
 

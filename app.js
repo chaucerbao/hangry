@@ -12,10 +12,6 @@ var express = require('express'),
     battles: new Datastore({
       filename: './db/battles.nedb',
       autoload: true
-    }),
-    votes: new Datastore({
-      filename: './db/votes.nedb',
-      autoload: true
     })
   },
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var async = require('async');
 
 exports.list = function(req, res) {
@@ -56,32 +58,26 @@ exports.vote = function(req, res) {
   req.db.battles.findOne({
     date: today
   }, function(err, battle) {
-    var isValid = false;
+    var votes;
 
-    /* Validate that the choice is in today's battle */
-    for (i = 0; i < battle.choices.length; i++) {
+    for (var i = 0; i < battle.choices.length; i++) {
+      /* Remove existing vote */
+      votes = battle.choices[i].votes;
+      votes.splice(votes.indexOf(req.ip), 1);
+
       if (req.params.id === battle.choices[i]._id) {
-        isValid = true;
+        /* Add the new vote */
+        votes.push(req.ip);
       }
     }
 
-    if (isValid) {
-      var vote = {
-        ip: req.ip,
-        battle: battle._id,
-        choice: req.params.id
-      };
-
-      req.db.votes.update({
-        ip: vote.ip,
-        battle: vote.battle
-      }, vote, {
-        upsert: true
-      }, function(err, numReplaced, choice) {
-        res.json({
-          success: true
-        });
+    /* Save */
+    req.db.battles.update({
+      _id: battle._id
+    }, battle, function(err, numReplaced, battle) {
+      res.json({
+        success: true
       });
-    }
+    });
   });
 };
