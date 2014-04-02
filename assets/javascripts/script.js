@@ -1,4 +1,4 @@
-(function() {
+(function(d) {
   'use strict';
 
   function addEvent(element, e, callback) {
@@ -9,8 +9,8 @@
     }
   }
 
-  if (document.getElementById('battle')) {
-    addEvent(document.getElementById('battle'), 'click', function(e) {
+  if (d.getElementById('battle')) {
+    addEvent(d.getElementById('battle'), 'click', function(e) {
       if (e.target.tagName === 'A') {
         e.preventDefault();
 
@@ -46,4 +46,8 @@
       }
     });
   }
-}());
+
+  if (d.getElementById('choice[name]')) {
+    d.getElementById('choice[name]').focus();
+  }
+}(document));
