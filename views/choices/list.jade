@@ -4,11 +4,19 @@ block body
   h1 All the choices
   p These are all the restaurants you can pick from. Don't be afraid to add your favorite into the rotation.
 
-  ol#choices
-    each choice in choices
-      li
-        a(href='/choice/' + choice._id)= choice.name
-        a(href='/choice/' + choice._id + '/remove') Remove
+  if choices.length
+    if choices.length < choicesPerBattle
+      p Still need at least #{choicesPerBattle - choices.length} more!
+    ol#choices
+      each choice in choices
+        li
+          a(href='/choice/' + choice._id)= choice.name
+          a(href='/choice/' + choice._id + '/remove') Remove
+  else
+    p But there aren't any choices yet. You'll need to add a few first.
 
   a(href='/choice/0') Add one!
-  a(href='/') Go back
+
+  if choices.length >= choicesPerBattle
+    br
+    a(href='/') Back to the battle

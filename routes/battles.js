@@ -20,6 +20,12 @@ exports.today = function(req, res) {
             req.db.choices.find({}).exec(function(err, choices) {
               var deck = shuffle(choices);
 
+              /* Not enough choices for a battle */
+              if (choices.length < choicesPerBattle) {
+                res.redirect('/choices');
+                return;
+              }
+
               battle = {
                 date: today,
                 choices: []
@@ -59,3 +65,5 @@ exports.today = function(req, res) {
       });
   });
 };
+
+exports.choicesPerBattle = choicesPerBattle;

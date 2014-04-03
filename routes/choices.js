@@ -6,8 +6,11 @@ exports.list = function(req, res) {
   req.db.choices.find({}).sort({
     name: 1
   }).exec(function(err, choices) {
+    var battles = require('./battles');
+
     res.render('choices/list', {
-      choices: choices
+      choices: choices,
+      choicesPerBattle: battles.choicesPerBattle
     });
   });
 };
